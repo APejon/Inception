@@ -14,7 +14,7 @@ services:
       - web
     depends_on:
       - wordpress
-    restart: always
+    restart: on-failure
   wordpress:
     build:
       dockerfile: ./requirements/wordpress/Dockerfile
@@ -29,7 +29,7 @@ services:
       - "9000:9000"
     depends_on:
       - mariadb
-    restart: always
+    restart: on-failure
   mariadb:
     build:
       dockerfile: ./requirements/mariadb/Dockerfile
@@ -42,7 +42,7 @@ services:
       - ./.env
     expose:
       - "3306:3306"
-    restart: always
+    restart: on-failure
 networks:
   web:
 volumes:
@@ -52,11 +52,11 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/Users/${USER}/data/wordpress'
+      device: '/home/${USER}/data/wordpress'
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/Users/${USER}/data/mariadb'
+      device: '/home/${USER}/data/mariadb'
